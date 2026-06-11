@@ -8,7 +8,10 @@ class Settings(BaseSettings):
 
     openai_api_key: str
     interviewer_model: str = "gpt-4o-mini"
-    cors_origins: str = "http://localhost:3000"
+    cors_origins: str = (
+        "http://localhost:3000,https://interview-forge-ai-omega.vercel.app"
+    )
+    cors_origin_regex: str = r"https://.*\.vercel\.app"
 
 
 @lru_cache
