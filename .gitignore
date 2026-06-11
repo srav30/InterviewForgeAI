@@ -6,6 +6,9 @@ __pycache__/
 # Env / secrets
 .env
 
+# Chroma persistence (use Railway volume at data/chroma in production)
+backend/data/chroma/
+
 # Node / Next.js
 node_modules/
 .next/

@@ -1,7 +1,10 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
+from app.rag.ingest import ingest_if_empty
 from app.routes.interview import router as interview_router
 
 settings = get_settings()
@@ -11,7 +14,16 @@ cors_origins = [
     if origin.strip()
 ]
 
-app = FastAPI(title="InterviewForge AI", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    chunks_ingested = ingest_if_empty()
+    if chunks_ingested:
+        print(f"Ingested {chunks_ingested} question/rubric chunks into ChromaDB")
+    yield
+
+
+app = FastAPI(title="InterviewForge AI", version="0.2.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

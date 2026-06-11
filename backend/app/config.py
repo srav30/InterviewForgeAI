@@ -1,6 +1,9 @@
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
 
 
 class Settings(BaseSettings):
@@ -12,6 +15,10 @@ class Settings(BaseSettings):
         "http://localhost:3000,https://interview-forge-ai-omega.vercel.app"
     )
     cors_origin_regex: str = r"https://.*\.vercel\.app"
+    chroma_path: str = str(BACKEND_ROOT / "data" / "chroma")
+    chroma_collection: str = "interview_content"
+    embedding_model: str = "text-embedding-3-small"
+    ingest_on_startup: bool = True
 
 
 @lru_cache
