@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     openai_api_key: str
     interviewer_model: str = "gpt-4o-mini"
+    cors_origins: str = "http://localhost:3000"
 
 
 @lru_cache
